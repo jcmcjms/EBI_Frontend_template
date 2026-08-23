@@ -1,5 +1,5 @@
 import { StackIcon} from "@phosphor-icons/react";
-import {LoginForm} from "@/src/components/login-form.tsx";
+import {LoginForm} from "@/components/login-form.tsx";
 
 export default function Login(){
     return (
