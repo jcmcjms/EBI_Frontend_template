@@ -62,6 +62,7 @@ export  function LoginForm({className, ...props}: React.ComponentProps<"form">) 
                     <Input
                     id="password"
                     type="password"
+                    placeholder="Password"
                     autoComplete="current-password"
                         {...register("password")}/>
                     {errors.password && (<p className="text-xs text-red-500 mt-1">Invalid credentials</p>
