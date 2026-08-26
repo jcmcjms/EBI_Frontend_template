@@ -1,15 +1,15 @@
 import * as React from "react";
-import {cn} from "@/lib/utils"
+import {cn} from "@/src/lib/utils"
 import {
     Field,
     FieldGroup, FieldLabel
-} from "@/components/ui/field"
-import {Input} from "@/components/ui/input";
-import {Button} from "@/components/ui/button";
+} from "@/src/components/ui/field"
+import {Input} from "@/src/components/ui/input";
+import {Button} from "@/src/components/ui/button";
 import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {useLogin} from "@/hooks/auth";
+import {useLogin} from "@/src/hooks/auth";
 import {CircleNotch} from "@phosphor-icons/react";
 
 const loginSchema = z.object({
