@@ -10,7 +10,7 @@ import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useLogin} from "@/src/hooks/auth";
-import {CircleNotch} from "@phosphor-icons/react";
+import {CircleNotch, Eye, EyeSlash} from "@phosphor-icons/react";
 
 const loginSchema = z.object({
     username: z.string()
@@ -25,6 +25,7 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export  function LoginForm({className, ...props}: React.ComponentProps<"form">) {
+    const[showPassword, setShowPassword] = React.useState(false);
     const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
         mode: "onBlur"
@@ -59,12 +60,22 @@ export  function LoginForm({className, ...props}: React.ComponentProps<"form">) 
                             Forgot password?
                         </a>
                     </div>
-                    <Input
-                    id="password"
-                    type="password"
-                    placeholder="Password"
-                    autoComplete="current-password"
-                        {...register("password")}/>
+                    <div className="relative">
+                        <Input
+                            id="password"
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Password"
+                            autoComplete="current-password"
+                            {...register("password")}/>
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                            tabIndex={-1}
+                        >
+                            {showPassword ? <EyeSlash size={18} /> : <Eye size={18} />}
+                        </button>
+                    </div>
                     {errors.password && (<p className="text-xs text-red-500 mt-1">Invalid credentials</p>
                     )}
                 </Field>
