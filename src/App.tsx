@@ -1,62 +1,76 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { lazy, Suspense } from "react";
-import { Spinner } from "@/src/components/ui/spinner.tsx";
-import { RequireAuth } from "@/src/components/require-auth";
+import { Suspense, lazy } from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { ProtectedRoute } from '@/components/auth/ProtectedRoute'
+import { AppShell } from '@/components/layout/AppShell'
+import { Spinner } from '@/components/ui/spinner'
 
-const Login = lazy(() => import("./pages/auth/login"));
-const Dashboard = lazy(() => import("./pages/dashboard"));
-const Placeholder = lazy(() => import("./pages/placeholder"));
+const LoginPage = lazy(() => import('@/pages/login/LoginPage'))
+const DashboardPage = lazy(() => import('@/pages/dashboard/DashboardPage'))
+const MonitoringPage = lazy(() => import('@/pages/monitoring/MonitoringPage'))
+const LoanCreatePage = lazy(() => import('@/pages/loans/create/LoanCreatePage'))
+const UsersPage = lazy(() => import('@/pages/admin/users/UsersPage'))
+const RolesPage = lazy(() => import('@/pages/admin/roles/RolesPage'))
+const ProductsPage = lazy(() => import('@/pages/admin/products/ProductsPage'))
+const NotificationsPage = lazy(() => import('@/pages/notifications/NotificationsPage'))
+const AccountPage = lazy(() => import('@/pages/account/AccountPage'))
 
-// Sidebar destinations without a real page yet — remove entries as pages ship.
-const PLACEHOLDER_PATHS = [
-  "/transactions",
-  "/accounts",
-  "/cards",
-  "/analytics",
-  "/reports",
-  "/statements",
-  "/settings",
-  "/help",
-  "/search",
-  "/transfers/new",
-];
+const LoadingFallback = () => (
+  <div className="flex h-screen items-center justify-center">
+    <Spinner size="lg" />
+  </div>
+)
 
-function App() {
+export default function App() {
   return (
-    <BrowserRouter>
-      <Suspense
-        fallback={
-          <div className="flex h-screen items-center justify-center">
-            <Spinner className="size-8" />
-          </div>
-        }
-      >
-        <Routes>
-          <Route path="/login" element={<Login />} />
+    <Suspense fallback={<LoadingFallback />}>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/login" element={<LoginPage />} />
+
+        {/* Protected Routes */}
+        <Route
+          element={
+            <ProtectedRoute>
+              <AppShell />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/loans/monitoring" element={<MonitoringPage />} />
+          <Route path="/loans/create" element={<LoanCreatePage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/account" element={<AccountPage />} />
+
+          {/* Admin Routes */}
           <Route
-            path="/dashboard"
+            path="/admin/users"
             element={
-              <RequireAuth>
-                <Dashboard />
-              </RequireAuth>
+              <ProtectedRoute requiredPermissions={['user.view']}>
+                <UsersPage />
+              </ProtectedRoute>
             }
           />
-          {PLACEHOLDER_PATHS.map((path) => (
-            <Route
-              key={path}
-              path={path}
-              element={
-                <RequireAuth>
-                  <Placeholder />
-                </RequireAuth>
-              }
-            />
-          ))}
-          <Route path="*" element={<Navigate to="/login" replace />} />
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
-  );
-}
+          <Route
+            path="/admin/roles"
+            element={
+              <ProtectedRoute requiredPermissions={['role.view']}>
+                <RolesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/loan-products"
+            element={
+              <ProtectedRoute requiredPermissions={['loan_product.manage']}>
+                <ProductsPage />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
 
-export default App;
+        {/* Catch-all */}
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
+    </Suspense>
+  )
+}

@@ -1,56 +1,94 @@
-import type { Icon } from "@phosphor-icons/react";
 import {
-  ArrowsLeftRight,
-  ChartLineUp,
-  ClipboardText,
-  CreditCard,
-  FileText,
-  Gauge,
-  Gear,
-  Lifebuoy,
+  House,
   MagnifyingGlass,
-  Wallet,
-} from "@phosphor-icons/react";
+  FilePlus,
+  Users,
+  Shield,
+  Package,
+  Bell,
+  UserCircle,
+  type Icon,
+} from '@phosphor-icons/react'
+import type { Permission } from '@/lib/types'
 
 export interface NavItem {
-  label: string;
-  to: string;
-  icon: Icon;
-  /** Exact-match for index routes like /dashboard. */
-  end?: boolean;
+  label: string
+  href: string
+  icon: Icon
+  requiredPermissions?: Permission[]
+  badge?: string
 }
 
-export interface NavSection {
-  title?: string;
-  items: NavItem[];
+export interface NavGroup {
+  label: string
+  items: NavItem[]
 }
 
-export const QUICK_ACTION = {
-  label: "New Transfer",
-  to: "/transfers/new",
-};
-
-export const NAV_SECTIONS: NavSection[] = [
+export const NAVIGATION: NavGroup[] = [
   {
+    label: 'Main',
     items: [
-      { label: "Dashboard", to: "/dashboard", icon: Gauge, end: true },
-      { label: "Transactions", to: "/transactions", icon: ArrowsLeftRight },
-      { label: "Accounts", to: "/accounts", icon: Wallet },
-      { label: "Cards", to: "/cards", icon: CreditCard },
-      { label: "Analytics", to: "/analytics", icon: ChartLineUp },
+      {
+        label: 'Dashboard',
+        href: '/dashboard',
+        icon: House,
+      },
+      {
+        label: 'Loan Monitoring',
+        href: '/loans/monitoring',
+        icon: MagnifyingGlass,
+        requiredPermissions: ['loans.view'],
+      },
+      {
+        label: 'Create Loan',
+        href: '/loans/create',
+        icon: FilePlus,
+        requiredPermissions: ['loans.create'],
+      },
     ],
   },
   {
-    title: "Resources",
+    label: 'Communication',
     items: [
-      { label: "Reports", to: "/reports", icon: ClipboardText },
-      { label: "Statements", to: "/statements", icon: FileText },
+      {
+        label: 'Notifications',
+        href: '/notifications',
+        icon: Bell,
+        badge: '3',
+      },
     ],
   },
-];
-
-export const FOOTER_ITEMS: NavItem[] = [
-  { label: "Settings", to: "/settings", icon: Gear },
-  { label: "Get Help", to: "/help", icon: Lifebuoy },
-  { label: "Search", to: "/search", icon: MagnifyingGlass },
-];
+  {
+    label: 'Administration',
+    items: [
+      {
+        label: 'Users',
+        href: '/admin/users',
+        icon: Users,
+        requiredPermissions: ['user.view'],
+      },
+      {
+        label: 'Roles',
+        href: '/admin/roles',
+        icon: Shield,
+        requiredPermissions: ['role.view'],
+      },
+      {
+        label: 'Loan Products',
+        href: '/admin/loan-products',
+        icon: Package,
+        requiredPermissions: ['loan_product.manage'],
+      },
+    ],
+  },
+  {
+    label: 'Account',
+    items: [
+      {
+        label: 'Profile',
+        href: '/account',
+        icon: UserCircle,
+      },
+    ],
+  },
+]
