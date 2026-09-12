@@ -56,7 +56,7 @@ export function AuthInitProvider({ children }: AuthInitProviderProps) {
     return (
       <div className="flex h-screen items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">
-          <Spinner size="lg" />
+          <Spinner className="size-8" />
           <p className="text-sm text-muted-foreground">Loading session...</p>
         </div>
       </div>

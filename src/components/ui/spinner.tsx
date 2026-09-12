@@ -1,22 +1,10 @@
-import { CircleNotch } from "@phosphor-icons/react"
 import { cn } from "cn"
+import { SpinnerIcon } from "@phosphor-icons/react"
 
-interface SpinnerProps {
-  size?: "sm" | "md" | "lg"
-  className?: string
-}
-
-const sizeClasses = {
-  sm: "h-4 w-4",
-  md: "h-6 w-6",
-  lg: "h-8 w-8",
-}
-
-export function Spinner({ size = "md", className }: SpinnerProps) {
+function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
   return (
-    <CircleNotch
-      className={cn("animate-spin text-muted-foreground", sizeClasses[size], className)}
-      weight="bold"
-    />
+    <SpinnerIcon data-slot="spinner" role="status" aria-label="Loading" className={cn("size-4 animate-spin", className)} {...props} />
   )
 }
+
+export { Spinner }

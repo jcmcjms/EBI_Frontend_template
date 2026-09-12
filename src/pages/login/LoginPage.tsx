@@ -119,7 +119,7 @@ export default function LoginPage() {
             </div>
 
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? <Spinner size="sm" /> : 'Sign In'}
+              {isLoading ? <Spinner className="size-4" /> : 'Sign In'}
             </Button>
           </form>
 

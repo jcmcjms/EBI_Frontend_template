@@ -16,7 +16,7 @@ const AccountPage = lazy(() => import('@/pages/account/AccountPage'))
 
 const LoadingFallback = () => (
   <div className="flex h-screen items-center justify-center">
-    <Spinner size="lg" />
+    <Spinner className="size-8" />
   </div>
 )
 
