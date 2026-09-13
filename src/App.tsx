@@ -5,6 +5,7 @@ import { AppShell } from '@/components/layout/AppShell'
 import { Spinner } from '@/components/ui/spinner'
 
 const LoginPage = lazy(() => import('@/pages/login/LoginPage'))
+const ForgotPasswordPage = lazy(() => import('@/pages/login/ForgotPasswordPage'))
 const DashboardPage = lazy(() => import('@/pages/dashboard/DashboardPage'))
 const MonitoringPage = lazy(() => import('@/pages/monitoring/MonitoringPage'))
 const LoanCreatePage = lazy(() => import('@/pages/loans/create/LoanCreatePage'))
@@ -26,6 +27,7 @@ export default function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         {/* Protected Routes */}
         <Route
