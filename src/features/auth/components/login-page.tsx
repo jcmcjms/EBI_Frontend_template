@@ -1,13 +1,17 @@
-import { LoginForm } from './login-form';
+import { LoginForm } from "./login-form"
+import { APP_NAME } from "@/app/app-config"
+import type { AuthenticatedUser } from "../services/auth-service"
 
-const ENTERPRISE_BANK_URL = 'https://www.enterprisebank.ph/';
+interface LoginPageProps {
+  onAuthenticated?: (user: AuthenticatedUser) => void
+}
 
-export function LoginPage() {
+export function LoginPage({ onAuthenticated }: LoginPageProps) {
   return (
     <main className="grid min-h-svh lg:grid-cols-2">
       <section className="flex flex-col gap-4 p-6 md:p-10">
         <header className="flex justify-center gap-2 md:justify-start">
-          <a href={ENTERPRISE_BANK_URL}>
+          <a href="https://www.enterprisebank.ph/">
             <img
               src="/enterprise_bank-logo.png"
               alt="Enterprise Bank Inc"
@@ -19,9 +23,9 @@ export function LoginPage() {
           <div className="w-full max-w-xs space-y-8">
             <div className="text-center">
               <h1 className="text-3xl font-bold tracking-tight">ALAS (CL)</h1>
-              <p className="text-sm text-muted-foreground mt-1">Enterprise Bank Inc.</p>
+              <p className="text-sm text-muted-foreground mt-1">{APP_NAME}</p>
             </div>
-            <LoginForm />
+            <LoginForm onAuthenticated={onAuthenticated} />
           </div>
         </div>
       </section>
@@ -39,5 +43,5 @@ export function LoginPage() {
         />
       </section>
     </main>
-  );
+  )
 }
